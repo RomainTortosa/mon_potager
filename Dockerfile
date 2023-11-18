@@ -7,28 +7,27 @@ RUN docker-php-ext-install mysqli pdo_mysql
 # Exposer le port 80 pour Apache
 EXPOSE 80
 
-# Installer MySQL Server pour le nœud maître
+# Installer MariaDB Server pour le nœud maître
 RUN apt-get update && \
-    apt-get install -y mysql-server && \
+    apt-get install -y mariadb-server && \
     rm -rf /var/lib/apt/lists/*
 
-# Exposer le port 3306 pour MySQL Master
+# Exposer le port 3306 pour MariaDB Master
 EXPOSE 3306
 
-# Configuration de MySQL Master
-# Notez que ce fichier pourrait contenir des informations sensibles et devrait être géré avec précaution
-COPY my.cnf /etc/mysql/my.cnf
+# Configuration de MariaDB Master
+COPY my.cnf /etc/mysql/mariadb.conf.d/my.cnf
 
-# Installer MySQL Server pour le nœud esclave
+# Installer MariaDB Server pour le nœud esclave
 RUN apt-get update && \
-    apt-get install -y mysql-server && \
+    apt-get install -y mariadb-server && \
     rm -rf /var/lib/apt/lists/*
 
-# Exposer le port 3307 pour MySQL Slave
+# Exposer le port 3307 pour MariaDB Slave
 EXPOSE 3307
 
-# Configuration de MySQL Slave
-COPY my_slave.cnf /etc/mysql/my.cnf
+# Configuration de MariaDB Slave
+COPY my_slave.cnf /etc/mysql/mariadb.conf.d/my_slave.cnf
 
 # Installer et configurer Grafana
 RUN apt-get update && \

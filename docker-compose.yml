@@ -7,31 +7,31 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - mysql-master
-      - mysql-slave
+      - mariadb-master
+      - mariadb-slave
       - grafana
 
-  # Service pour le nœud maître MySQL
-  mysql-master:
-    image: mysql:latest
+  # Service pour le nœud maître MariaDB
+  mariadb-master:
+    image: mariadb:latest
     ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
-      - ./my.cnf:/etc/mysql/my.cnf
+      - ./my.cnf:/etc/mysql/mariadb.conf.d/my.cnf
     command: --server-id=1
 
-  # Service pour le nœud esclave MySQL
-  mysql-slave:
-    image: mysql:latest
+  # Service pour le nœud esclave MariaDB
+  mariadb-slave:
+    image: mariadb:latest
     ports:
       - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
-      - ./my_slave.cnf:/etc/mysql/my.cnf
-    command: --server-id=2 --master-host=mysql-master --master-port=3306 --master-user=root --master-password=root_password
+      - ./my_slave.cnf:/etc/mysql/mariadb.conf.d/my_slave.cnf
+    command: --server-id=2 --master-host=mariadb-master --master-port=3306 --master-user=root --master-password=root_password
 
   # Service pour Grafana
   grafana:
