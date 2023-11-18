@@ -1,0 +1,22 @@
+[mysqld]
+# Identifiant unique du serveur MySQL (doit être différent sur le maître et l'esclave)
+server-id=2
+
+# Activation du journal de relais pour la réplication
+relay-log=mysql-relay-bin
+log-slave-updates=1
+
+# Ignorer la base de données MySQL pour éviter la réplication circulaire
+replicate-ignore-db=mysql
+
+# Assure la cohérence GTID lors de la réplication
+enforce-gtid-consistency=1
+
+# Format de journal binaire
+binlog-format=row
+
+# Nombre de jours avant que les journaux ne soient expirés
+expire_logs_days=7
+
+# Taille maximale des fichiers journaux binaires
+max_binlog_size=100M
