@@ -33,7 +33,8 @@ COPY my_slave.cnf /etc/mysql/mariadb.conf.d/my_slave.cnf
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository "deb https://packages.grafana.com/oss/deb stable main" && \
-    wget -q -O - https://packages.grafana.com/gpg.key | apt-key add - && \
+    apt-get install -y curl && \
+    curl -sSL https://packages.grafana.com/gpg.key | apt-key add - && \
     apt-get update && \
     apt-get install -y grafana && \
     rm -rf /var/lib/apt/lists/*
